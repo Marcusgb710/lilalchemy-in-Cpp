@@ -1,23 +1,23 @@
-/// This is my attempt at finally learning C++!
-/// This is a CLI game that is supposed to imitate the game Little Alchemy.
-/// Little Alchemy is a Game where you combine different objects to discover 
-/// new items that will be made.
-/// I do have plans to turn this into a GUI game as i did in python and will do in java, javascript and C#.
-/// I learned alot about different C++ types and how they interact and work with eachother.
-/// The basic concept of creating the CLI game is very similar across languages and thats why I find
-/// it so fun to create the same project acrsoo different languages.
-/// I will be using this experience to create more CLI games until i feel comfortable enough to move to 
-/// creating GUI games.
-/// I used the json header provided by Niels Lohmann [github link --- https://github.com/nlohmann/json]
-/// I have alot of experience using json and this header made is SUPER easy to get data from json.
-/// Niels also made it very similar to other languages when it comes to indexing information using bracket notation!.
-/// Please check out his github the dude is a mad legend imo.
-/// I have to fins a way to get my current work directory path and someone from 2009 provided this greate example on
-/// stack overflow [link --- https://stackoverflow.com/questions/875249/how-to-get-current-directory]. it was edited recently (2001) by
-/// Jimmy T [stack overflow link --- https://stackoverflow.com/users/1659790/jimmy-t]. Big Big shout out to these 2 madlads. They made my job
-/// super easy and i learned quite a bit about how to navigate files in C++ as well as learning quite a bit about strings too!
-/// Thanks for checking out my project and feel free to check out more on my github --- https://github.com/Marcusgb710
-/// ~~ByteSized0001~~
+// / This is my attempt at finally learning C++!
+// / This is a CLI game that is supposed to imitate the game Little Alchemy.
+// / Little Alchemy is a Game where you combine different objects to discover 
+// / new items that will be made.
+// / I do have plans to turn this into a GUI game as i did in python and will do in java, javascript and C#.
+// / I learned alot about different C++ types and how they interact and work with eachother.
+// / The basic concept of creating the CLI game is very similar across languages and thats why I find
+// / it so fun to create the same project acrsoo different languages.
+// / I will be using this experience to create more CLI games until i feel comfortable enough to move to 
+// / creating GUI games.
+// / I used the json header provided by Niels Lohmann [github link --- https://github.com/nlohmann/json]
+// / I have alot of experience using json and this header made is SUPER easy to get data from json.
+// / Niels also made it very similar to other languages when it comes to indexing information using bracket notation!.
+// / Please check out his github the dude is a mad legend imo.
+// / I have to fins a way to get my current work directory path and someone from 2009 provided this greate example on
+// / stack overflow [link --- https://stackoverflow.com/questions/875249/how-to-get-current-directory]. it was edited recently (2001) by
+// / Jimmy T [stack overflow link --- https://stackoverflow.com/users/1659790/jimmy-t]. Big Big shout out to these 2 madlads. They made my job
+// / super easy and i learned quite a bit about how to navigate files in C++ as well as learning quite a bit about strings too!
+// / Thanks for checking out my project and feel free to check out more on my github --- https://github.com/Marcusgb710
+// / ~~ByteSized0001~~
 
 
 
@@ -27,6 +27,7 @@
 #include <memory>
 #include <cctype>
 #include <windows.h>
+#include <stdlib.h>
 #include "json.hpp"
 
 using namespace std;
@@ -131,7 +132,13 @@ Item getItemByName(string name, std::vector<Item> items){
 }
 
 std::vector<Item> createNewItem(string name, std::vector<Item> items){
-    items.push_back(Item(lowwer(name), true));
+    const string _name = lowwer(name);
+    for(Item i : items){
+        if(i.getName() == _name){
+            return items;
+        }
+    }
+    items.push_back(Item(_name, true));
     return items;
 }
 
@@ -165,6 +172,7 @@ int main(){
         inputLowered = "";
         cin >> userInput;
         if(userInput == "exit"){return 1;};
+        
 
         switch(checkInput(userInput)){
             case str:
@@ -175,10 +183,12 @@ int main(){
                     inputLowered += lowerLetter;
                 }
                 result = getItemByName(inputLowered, items);
-                if(result.getName() == ""){cout << "EMPTY" << endl; continue;}
+                if(result.getName() == ""){cout << "Item not found" << endl; continue;}
                 break;
             case num:
-                result = items[stoi(userInput)];
+            const int userNum = stoi(userInput);
+                if(userNum > items.size()-1){cout << "Input is too large" << endl; continue;}
+                result = items[userNum];
                 break;
         }
 
@@ -191,16 +201,22 @@ int main(){
             if(checkRecipies(selection1, selection2)){
                 string recepieName = getRecepie(selection1, selection2);
                 items = createNewItem(recepieName, items);
+                cout << "Item1: " << selection1.getName() << endl;
+                cout << "Item2: " << selection2.getName() << endl;
                 cout << "You Made: " << recepieName << endl;
             }
             else if(checkRecipies(selection2, selection1)){
                 string recepieName = getRecepie(selection2, selection1);
                 items = createNewItem(recepieName, items);
+                cout << "Item1: " << selection2.getName() << endl;
+                cout << "Item2: " << selection1.getName() << endl;
                 cout << "You Made: " << recepieName << endl;
             }
             
             selection1 = Item();
             selection2 = Item();
+            
+            
         }
         if(selection1.getName() != ""){cout << selection1.getName() << endl;}
         }     
