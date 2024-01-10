@@ -14,4 +14,4 @@ stack overflow [link --- https://stackoverflow.com/questions/875249/how-to-get-c
 Jimmy T [stack overflow link --- https://stackoverflow.com/users/1659790/jimmy-t]. Big Big shout out to these 2 madlads. They made my job 
 super easy and i learned quite a bit about how to navigate files in C++ as well as learning quite a bit about strings too!
 Thanks for checking out my project and feel free to check out more on my github --- https://github.com/Marcusgb710
-~ByteSized0001~
+                                                -ByteSized0001-
